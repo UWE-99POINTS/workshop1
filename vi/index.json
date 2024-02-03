@@ -1,0 +1,155 @@
+[
+{
+	"uri": "/vi/5-frontend/5.1.prepare/",
+	"title": "Chuẩn bị nén code Front-end",
+	"tags": [],
+	"description": "",
+	"content": " Thay đổi giá trị của apiBaseUrl với AWS Serverless URL của Back-end tại file environment.ts và environment.development.ts. Mở folder chứa source code và tạo một folder mới tên Deployment Mở Terminal tại đường dẫn hiện tại và chạy câu lệnh sau CMD\nng build\rCâu lệnh thực thi thành công. Câu lệnh sẽ sinh ra một folder mới, trong đó có chưa các file như HTML,js và CSS Ứng dụng Angular bạn vừa xây dựng sẽ không hoạt động như một trang web tĩnh, nó phải chạy trên một máy chủ Node.js. Copy folder disk và chuyển vào trong folder deployment. Mở folder deployment, mở terminal và chạy câu lệnh sau CMD\nnpm init\rĐặt tên entry point: (index.js) js thành \u0026lsquo;server.js\u0026rsquo; Confirm yes ở cuối. Tiếp theo, chạy câu lệnh sau để cài đặt Express and Path bằng CMD. CMD\nnpm install express path --save\rTạo file server.js. Kiểm tra đường dẫn của code. Ở đây, đường dẫn đang là Deployment/dist/codepulse. Bên trong thư mục codepulse chứa các file HTML/CSS/JS. Mở file server.js và điền đoạn code dưới đây. CMD\nconst express = require('express');\rvar path = require('path');\rconst port = process.env.PORT ||3000; const app = express(); //Set the base path to the angular-test dist folder\rapp.use(express.static(path.join(__dirname, 'dist/codepulse')));\r//Any routes will be redirected to the angular app\rapp.get('*', function(req, res) {\rres.sendFile(path.join(__dirname, 'dist/codepulse/index.html'));\r});\r//Starting server on port 8081\rapp.listen(port, () =\u0026gt; {\rconsole.log('Server started!');\rconsole.log(port);\r});\rChạy project Node.js ở trên máy sử dung câu lệnh node server.js. The app should work on localhost:3000 port Xóa thư mục node_modules.Chọn thư mục \u0026lsquo;dist\u0026rsquo;, tệp \u0026lsquo;server.js\u0026rsquo;, và tệp \u0026lsquo;package.json\u0026rsquo; (của dự án máy chủ) sau đó nén chúng thành một tệp zip. "
+},
+{
+	"uri": "/vi/4-backend/4.1.connecttords/",
+	"title": "Kết nối với Database từ Back-end",
+	"tags": [],
+	"description": "",
+	"content": " Kiểm tra RDS Endpoint và lưu lại giá trị Mở The Visual Studio Code 2022\nChọn file appsettings.json , điền vào giá trị Server với endpoint của bạn, set UserId và Password với thông tin bạn tạo. Chọn nút https ở trên cùng, bạn có thể thấy trang Swagger tổng hợp tất cả các API có trong project localhost:7226/swagger/index.html Thử Execute để xem đã kết nối với API thành công chưa.\n"
+},
+{
+	"uri": "/vi/3-database/3.1.create/",
+	"title": "Tạo Database",
+	"tags": [],
+	"description": "",
+	"content": "Creat RDS Truy cập tới RDS Chọn Create database Chọn Standard create Với Engine options : Chọn Microsoft SQL Server. Tiếp theo Trong Templates : Chọn Free Tier Set DB instance identifier thành database-1 Set Master username thành sa Set Master Password và Confirm Master Password thành password của bạn. Ở đây sẽ là abcd1234 Tiếp theo : Chọn VPC vừa tạo. Chọn DB Subnet group cùng với giá trị của VPC Tick vào Public Access : Yes Chọn VPC security group : workshop-2-sg Chọn Availability Zone : ap-southeast-1a Click Create database Cơ sở dữ liệu được khởi tạo thành công. "
+},
+{
+	"uri": "/vi/4-backend/4.2.creates3/",
+	"title": "Tạo S3",
+	"tags": [],
+	"description": "",
+	"content": " Truy cập vào RDS Chọn nút Create bucket Chọn AWS region : Asia Pacific (Singapore) ap-southeast-1 Đặt tên bucket là awslambda-net6 Tắt Block all public access Chọn I acknowledge \u0026hellip; Chọn Create bucket "
+},
+{
+	"uri": "/vi/2-prerequiste/2.1-createvpc/",
+	"title": "Tạo VPC",
+	"tags": [],
+	"description": "",
+	"content": "Tạo VPC Truy cập tới VPC Chọn Your VPCs. Sau đó chọn Create VPC. Chọn VPC only Thêm name tag my-workshop-2-vpc. Thêm IPv4 CIDR 172.30.0.0/16. Kiểm tra trạng thái VPC. CloudFor\n"
+},
+{
+	"uri": "/vi/",
+	"title": "Triển khai ứng dụng sử dụng các dịch vụ của AWS (RDS, Elastic Beanstalk, API Gateway)",
+	"tags": [],
+	"description": "",
+	"content": "Triển khai ứng dụng sử dụng các dịch vụ của AWS (RDS, Elastic Beanstalk, API Gateway) Overall Trong Workhop này, ta sẽ sử dụng các dịch vụ để triển khai ứng dụng của mình lên môi trường AWS bằng việc sử dụng các dịch vụ của AWS như Elastic BeanStalk với ứng dụng phía Front-end Nodejs, Back-end với Web API chúng ta sử dụng API Gateway và Lambda Function. Lưu trữ dữ liệu sử dụng Amazon RDS với SQL Server. Cùng với đó là các Service theo dõi Log như Cloud Watch và lưu trữ Source Code như S3.\nĐây sẽ là một số công nghệ sử dụng trong ứng dụng. VỚi Front-end sử dụng Angular 16, back-end sử dụng C#, .NET 6 , Entity Framework. Database sử dụng SQL Server (MSSQL).\nContent Introduction "
+},
+{
+	"uri": "/vi/5-frontend/5.2.deployfe/",
+	"title": "Deploy Front-end Nodejs với Elastic Beanstalk",
+	"tags": [],
+	"description": "",
+	"content": " Truy cập tới Amazon Elastic Beanstalk Chọn Create environment Điền các thông tin tên ứng dụng và tên môi trường. Điền thông tin tên domain và ghi chú của môi trường. Chọn Platform : Node.js Chọn Platform branch : Node.js 20 running on 64bit Amazon linux 2023 Chọn Platform version : 6.1.0 (Recommended) Chọn Upload your code Chọn Local file Chọn Choose file Chọn file bạn vừa zip. Chọn Version label : nodejs-label. Để cấu hình Service Access: Chọn Service role : Use an existing service role Chọn Exsisting service role : aws-elasticbeanstalk-service-role Chọn EC2 key pair : aws-elasticbeanstalk-key Chọn EC2 instance profile : aws-elasticbeanstalk-ec2-role Chọn Next Chọn VPC : my-workshop-2-vpc\nTrong Instance Settings, Chọn Public IP address : Activated. Chọn tất cả các instance subnet. Chọn EC2 security groups : workshop-2-gs\nChọn Instance types : t3.large và t3.medium Chọn Next Trong CloudWatch Customer Metrics Instance and Enviroment, chọn ApplicationlatencyP99.9 và ApplicationRequestsTotal Chọn Log Streaming thành Activated Chọn on Submit Thường mất tầm 7-10 phút để hoàn thành. Copy domain để kiểm tra. Sử dụng username/pass sau để đăng nhập ứng dụng : admin/QRv*e5W_ "
+},
+{
+	"uri": "/vi/1-introduce/",
+	"title": "Giới thiệu",
+	"tags": [],
+	"description": "",
+	"content": "EB - Amazon Elastic Beanstalk là một dịch vụ quản lý đầy đủ do Amazon Web Services (AWS) cung cấp, giúp đơn giản hóa việc triển khai và quản lý ứng dụng trên đám mây. Nó được thiết kế để giúp các nhà phát triển triển khai và chạy ứng dụng một cách dễ dàng mà không cần phải lo lắng về cơ sở hạ tầng.\nKey Features\nTriển khai Dễ dàng: Nhà phát triển có thể triển khai ứng dụng của họ một cách dễ dàng chỉ bằng cách tải lên mã nguồn của mình. Tự động Mở rộng: Elastic Beanstalk có thể tự động mở rộng ứng dụng của bạn dựa trên nhu cầu. Quản lý Môi trường: AWS Elastic Beanstalk cung cấp và quản lý cơ sở hạ tầng cơ bản, bao gồm các trường hợp tính toán, cân bằng tải và cơ sở dữ liệu. Hỗ trợ Nhiều Ngôn ngữ: Elastic Beanstalk hỗ trợ nhiều ngôn ngữ lập trình, bao gồm Java, .NET, PHP, Node.js, Python, Ruby, Go và Docker. API Gateway và AWS Lambda là hai dịch vụ của AWS hoạt động cùng nhau để xây dựng và triển khai các API (Giao diện Lập trình Ứng dụng) có khả năng mở rộng và hiệu quả về chi phí trên đám mây.\nAmazon API Gateway là một dịch vụ quản lý đầy đủ, giúp nhà phát triển dễ dàng tạo, xuất bản, duy trì, giám sát và bảo mật các API ở mọi quy mô.\nAWS Lambda là một dịch vụ tính toán không máy chủ, cho phép bạn chạy mã mà không cần phải cấu hình hoặc quản lý máy chủ. Nó tự động mở rộng dựa trên lưu lượng đến hoặc sự kiện đang diễn ra.\nRDS - Relational Database Service là một service giúp cho người dùng tạo và quản lý các Relational Database (SQL dạng quan hệ)\nĐặc trưng cơ bản\nLà một DaaS (Database as a Service) Cho phép người dùng tạo ra database instance hoặc 1 cụm instance. Có thể scale theo 2 hình thức : Scale virtical : tăng hoặc giảm cấu hình instance. Scale horizontal : thêm hoặc bớt node tuy nhiên node này chỉ có thể read ( read-replica ). Có giới hạn về dung lượng ổ cứng tối đa (64 TB đối với MySQL, MariaDB,\u0026hellip; 16TB đối với Microsoft SQL). Các tính năng cơ bản\nTạo các DB instance cơ bản hoặc cụm cluster nhanh chóng. Tự động fail-over giữa master-slave instance khi có sự cố. High-Availability: tự động cấu hình instance stand by, người dùng chỉ cần chọn. Có thể scale dung lượng. Automate back-up. Chỉnh sửa setting ở cấp độ Database sử dụng Parameter Group Reference workshop on RDS : https://uwe-99points.github.io/toanntk.github.io/\n"
+},
+{
+	"uri": "/vi/3-database/3.2.overview/",
+	"title": "Kiểm tra Tổng quan SQL",
+	"tags": [],
+	"description": "",
+	"content": " Chọn Database vừa tạo. Kiểm tra Endpoint và lưu lại giá trị. Ở đây, bài lab sử dụng Microsoft SQL Server Management Studio để kết nối tới database. Điền Server name với Endpoint vừa lưu. Điền login với giá trị sa and password with your password Bài lab có chuarnan bị sẵn script để chạy, trong đó tạo sẵn một database tên Final_Project_27_11. Click Here To Download SQL script Chạy Script sau và thử query với câu lệnh SELECT * FROM MstMealTypes. Đây sẽ là kết quả. "
+},
+{
+	"uri": "/vi/2-prerequiste/2.2-createsubnet/",
+	"title": "Tạo Subnet",
+	"tags": [],
+	"description": "",
+	"content": "Create Subnet Truy cập tới VPC Chọn Subnet. Tiếp đó chọn Create Subnet. Chọn VPC ID (my-rds-vpc) Đổi tên thành pubic-subnet-01. Chọn Availability Zone. Trong bài lab này, ta sẽ chọn ap-southeast-1a Đổi IPv4 thành 172.30.0.0/24 Lặp lại các bước trên, tạo thêm 2 subnet nữa.\nSubnet thứ 2 có IPv4 là 172.30.1.0/24, tên pubic-subnet-02 và Availability Zone : ap-southeast-1b Subnet thứ 3 có IPv4 là 172.30.2.0/24, tên pubic-subnet-03 và Availability Zone : ap-southeast-1c Kết quả sau khi tạo đủ 3 subnet.\nCho phép tự động gán địa chỉ IPv4 công cộng cho tất cả các mạng con. "
+},
+{
+	"uri": "/vi/2-prerequiste/",
+	"title": "Các bước chuẩn bị",
+	"tags": [],
+	"description": "",
+	"content": "Bài lab sử dụng nhiều dịch vụ của AWS như VPC, EC2, Cloud9, RDS.\nVPC (Virtual Private Cloud): Bạn sẽ thiết lập một Mạng riêng ảo (Virtual Private Cloud - VPC), đây là một môi trường mạng cách biệt trong AWS. Điều này sẽ giúp bạn kiểm soát các khía cạnh mạng của trường hợp RDS của bạn.\nEC2 (Elastic Compute Cloud): Các phiên bản EC2 được sử dụng cho nhiều mục đích, bao gồm việc lưu trữ ứng dụng có thể tương tác với cơ sở dữ liệu RDS của bạn. Bạn có thể tạo các phiên bản EC2 để mô phỏng các tình huống sử dụng khác nhau.\nRDS (Relational Database Service): Trọng tâm chính của bài thực hành là về RDS. Bạn sẽ làm việc với RDS để tạo, cấu hình và quản lý cơ sở dữ liệu quan hệ. Điều này bao gồm việc tạo các trường hợp cơ sở dữ liệu, thiết lập sao lưu tự động, cấu hình nhóm bảo mật và có thể triển khai các giải pháp có tính sẵn sàng cao.\nContent Create VPC Create Subnet Create Route Table Create Internet Gateway Create Security Group "
+},
+{
+	"uri": "/vi/4-backend/4.3.installtoolkit/",
+	"title": "Tải AWS Tool Kit",
+	"tags": [],
+	"description": "",
+	"content": "For more information Install AWS guide Chọn Extensions ở góc trên -\u0026gt; Manage Extensions. Tìm kiếm AWS toolkit for Visual Studio 2022 và cài đặt. Đăng nhập tài khoản AWS của bạn. "
+},
+{
+	"uri": "/vi/2-prerequiste/2.3-creatertb/",
+	"title": "Tạo Route Table",
+	"tags": [],
+	"description": "",
+	"content": "Tạo Subnet Truy cập tới VPC\nChọn Route tables. Kiểm tra thông tin chi tiết Route Table.\nChọn Route tables\nChọn Subnet associations Chọn Edit Subnet associations Chọn Public subnet, sau đó chọn Save associations. Kết quả trả ra thành công. "
+},
+{
+	"uri": "/vi/3-database/",
+	"title": "Database",
+	"tags": [],
+	"description": "",
+	"content": "Content Create Database Review Database "
+},
+{
+	"uri": "/vi/4-backend/4.4.publicsourcecode/",
+	"title": "Deploy API",
+	"tags": [],
+	"description": "",
+	"content": " Kiểm tra PackageReference của Project\nKiểm tra có tồn tại Amazon.Lambd.Tools , Amazon.Lambda.AspNetCoreServer and Amazon.Lambda.AspNetCoreServer.Hosting. Chuột phải vào project và bấm Publish to AWS Lambda. Set tên Stack name là Workshop-2.\nChọn S3 Bucket vừa tạo : awslambda-net6. Chọn Publish. Quá trình deploy đang được thực hiện\n4. Deploy API thành công. Copy AWS Serverless URL và kiểm tra kết quả như hình. Truy cập tới CloudFormation và kiểm tra trạng thái Stack vừa deploy. Truy cập tới Api Gateway và kiểm tra trạng thái "
+},
+{
+	"uri": "/vi/2-prerequiste/2.4-createintgtw/",
+	"title": "Tạo Internet Gateway",
+	"tags": [],
+	"description": "",
+	"content": " Truy cập tới VPC Chọn Internet Gateway ở bên trái màn hình. Sau đó chọn Create Internet Gateway. Thêm name tag rds-int-gtw, sau đó chọn Create Internet Gateway. Chọn Attach to a VPC Chọn Availiable VPC my-workshop-2-vpc, sau đó nhấn Attach internet gateway Chọn Route Tables ở bên trái màn hình. Click vào my-workshop-2-vpc. Chọn Routes tab. Chọn Edit routes. Chọn Add route Đổi Destiny thành 0.0.0.0/0. Chọn Target Internet Gateway. Chọn Internet Gateway bạn vừa tạo, sau đó ấn Save Changes. "
+},
+{
+	"uri": "/vi/4-backend/",
+	"title": "Back-end WebAPI với AWS Tool kit",
+	"tags": [],
+	"description": "",
+	"content": "Content Connect to Database from back-end Create S3 to store source code Install AWS Tool Kit Public Soure Code "
+},
+{
+	"uri": "/vi/2-prerequiste/2.5-createsg/",
+	"title": "Tạo Security Group",
+	"tags": [],
+	"description": "",
+	"content": " Chọn danh mục Security Group Chọn Create security group Thêm name tag workshop-2-sg Thêm Description workshop-2-sg Chọn VPC bạn vừa tạo. Thêm các inbound rule như trong ảnh: Type : All Trafics, Source : Anywhere-Ipv4 Type : SSH, Source : Anywhere-Ipv4 Type : HTTP, Source : Anywhere-Ipv4 Type : HTTPS, Source : Anywhere-Ipv4 Type : MYSQL/Aurora, Source : Anywhere-Ipv4 Type : MSSQL, Source : Anywhere-Ipv4 Tạo Create Security Group thành công "
+},
+{
+	"uri": "/vi/5-frontend/",
+	"title": "Deploy Front-end với Elastic Beanstalk",
+	"tags": [],
+	"description": "",
+	"content": "Content Prepare for source code Deploying using Elastic Beanstalk "
+},
+{
+	"uri": "/vi/8-cleanup/",
+	"title": "Dọn dẹp tài nguyên  ",
+	"tags": [],
+	"description": "",
+	"content": "We will take the following steps to delete the resources we created in this exercise.\nXóa Môi trường WebApi Truy cập Cloud Formation Chọn stack Workshop-2 và chọn nút xóa. Chọn nút Confirm Clear Fronnt-end Nodejs enviroment Truy cập Amazon Elastic Beanstalk Chọn môi trường Chọn Actions dropdown và chọn Terminate enviroment. Nhập tên môi trường và nhấn confirm xóa Truy cập tới RDS\nChọn database Chọn Actions dropdown và chọn Delete. Tick I acknowledge \u0026hellip;, điền delete me và nhấn Delete\nTruy cập VPC và xóa các service liên quan tới VPC đã được tạo ở workshop này "
+},
+{
+	"uri": "/vi/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/vi/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

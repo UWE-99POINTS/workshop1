@@ -1,0 +1,155 @@
+[
+{
+	"uri": "/4-backend/4.1.connecttords/",
+	"title": "Connect to new Database from Back-end",
+	"tags": [],
+	"description": "",
+	"content": " Review RDS Endpoint and copy it Open The Visual Studio Code 2022\nChoose appsettings.json file , fill the Server with your endpoint , set UserId and Password with the information that you created. Choose https button at the top to build the project, you can see Swagger screen that contains all the API of the project at localhost:7226/swagger/index.html Try to execute an API to check if it connect to the database.\n"
+},
+{
+	"uri": "/3-database/3.1.create/",
+	"title": "Create Database",
+	"tags": [],
+	"description": "",
+	"content": "Creat RDS Go to RDS Click on Create database Choose Standard create With Engine options : Choose Microsoft SQL Server. Next step In Templates : Choose Free Tier Set DB instance identifier to database-1 Set Master username to sa Set Master Password and Confirm Master Password to your own password. In here, i set it to be abcd1234 Next : Choose VPC that you just created. Choose DB Subnet group the same with the VPC Tick on the Public Access to Yes Choose VPC security group : workshop-2-sg Choose Availability Zone : ap-southeast-1a Click Create database. The process will take about 15-20 minutes. The Database is created successfully "
+},
+{
+	"uri": "/2-prerequiste/2.1-createvpc/",
+	"title": "Create VPC",
+	"tags": [],
+	"description": "",
+	"content": "Creat VPC Go to VPC Click Your VPCs. Then Click Create VPC. Select VPC only Add name tag my-workshop-2-vpc. Add IPv4 CIDR 172.30.0.0/16. Check VPC status "
+},
+{
+	"uri": "/",
+	"title": "Deploy Application Using AWS Service (RDS, Elastic Beanstalk, API Gateway)",
+	"tags": [],
+	"description": "",
+	"content": "Deploy Application Using AWS Service (RDS, Elastic Beanstalk, AWS Tool kit) Overall In this workshop, we will utilize AWS services to deploy our applications to the AWS environment, leveraging AWS services such as Elastic BeanStalk for the Node.js frontend application and Web API for the backend, utilizing API Gateway and Lambda Functions. Data storage will be managed using Amazon RDS with SQL Server. Additionally, we will incorporate monitoring services like CloudWatch for log tracking and use S3 for source code storage.\nHere are some technologies used in the application. The front-end utilizes Angular 16, while the back-end is developed using C#, .NET 6, and Entity Framework. The database is managed using SQL Server (MSSQL).\nContent Introduction "
+},
+{
+	"uri": "/5-frontend/5.1.prepare/",
+	"title": "Prepare for compress Front-end code",
+	"tags": [],
+	"description": "",
+	"content": " Replace the apiBaseUrl with AWS Serverless URL in the Back-end at environment.ts and environment.development.ts file. Open source code folder and create new folder Deployment Open Terminal and run command CMD\nng build\rCommand run success. This will create a dist folder like \u0026lsquo;dist/app-folder\u0026rsquo; with HTML, js, and CSS. The angular app you just built won’t work as a static website, it has to run on top of a Node.js server. Copy disk folder into deployment folder. Open deployment and open Cmd terminal. CMD\nnpm init\rName entry point: (index.js) js to server.js Confirm yes at the end. Next, run this command to Install Express and Path using CMD. CMD\nnpm install express path --save\rCreate new server.js file. Check the directory of the code. In here, the directory is Deployment/dist/codepulse. Inside codepulse folder contains HTML/CSS/JS file Open server.js file and paste the code below. CMD\nconst express = require('express');\rvar path = require('path');\rconst port = process.env.PORT ||3000; const app = express(); //Set the base path to the angular-test dist folder\rapp.use(express.static(path.join(__dirname, 'dist/codepulse')));\r//Any routes will be redirected to the angular app\rapp.get('*', function(req, res) {\rres.sendFile(path.join(__dirname, 'dist/codepulse/index.html'));\r});\r//Starting server on port 8081\rapp.listen(port, () =\u0026gt; {\rconsole.log('Server started!');\rconsole.log(port);\r});\rRun Node.js project locally using \u0026rsquo;node server.js\u0026rsquo;. The app should work on localhost:3000 port Delete the node_modules folder. Take the dist folder, the server.js file, and the package.json file (of the server project) and compress them as a zip. "
+},
+{
+	"uri": "/4-backend/4.2.creates3/",
+	"title": "Create S3",
+	"tags": [],
+	"description": "",
+	"content": " Go to RDS Click button Create bucket Choose AWS region : Asia Pacific (Singapore) ap-southeast-1 Set Bucket name as awslambda-net6 Turn off the Block all public access Click on I acknowledge \u0026hellip; Click on Create bucket "
+},
+{
+	"uri": "/2-prerequiste/2.2-createsubnet/",
+	"title": "Create Subnet",
+	"tags": [],
+	"description": "",
+	"content": "Create Subnet Go to VPC Click Subnet. Then Click Create Subnet. Select VPC ID (my-workshop-2-vpc) Then Name your subnet pubic-subnet-01. Chose your Availability Zone. In this lab, i will chose ap-southeast-1a Change IPv4 to 172.30.0.0/24 Repeat the folowing step to create 2 more The Second one IPv4 is 172.30.1.0/24, name is pubic-subnet-02 and Availability Zone is ap-southeast-1b The Second one IPv4 is 172.30.2.0/24, name is pubic-subnet-03 and Availability Zone is ap-southeast-1c The result will be like in the picture Enable auto-assign public IPv4 address of all subnet. "
+},
+{
+	"uri": "/5-frontend/5.2.deployfe/",
+	"title": "Deploy Front-end Nodejs with Elastic Beanstalk",
+	"tags": [],
+	"description": "",
+	"content": " Go to Amazon Elastic Beanstalk Click button Create environment Fill your application name and environment name. Fill your domnain name and environment description. Select Platform : Node.js Select Platform branch : Node.js 20 running on 64bit Amazon linux 2023 Select Platform version : 6.1.0 (Recommended) Select Upload your code Choose Local file Choose Choose file Select your zip file. Set Version label : nodejs-label. To configure the Service Access: Choose Service role : Use an existing service role Choose Exsisting service role : aws-elasticbeanstalk-service-role Choose EC2 key pair : aws-elasticbeanstalk-key Choose EC2 instance profile : aws-elasticbeanstalk-ec2-role Click Next Select VPC : my-workshop-2-vpc\nIn Instance Settings, Set Public IP address : Activated. Choose all instance subnet. Select EC2 security groups : workshop-2-gs\nSelect Instance types : t3.large and t3.medium Choose Next In CloudWatch Customer Metrics Instance and Enviroment, choose ApplicationlatencyP99.9 and ApplicationRequestsTotal Tick on Log Streaming to Activated Click on Submit It takes about 7-10 minutes to launche successful. Copy the domain to use web app.\nUse username/pass to login : admin/QRv*e5W_\n"
+},
+{
+	"uri": "/1-introduce/",
+	"title": "Introduction",
+	"tags": [],
+	"description": "",
+	"content": "EB - Amazon Elastic Beanstalk is a fully managed service provided by Amazon Web Services (AWS) that simplifies the deployment and management of applications in the cloud. It\u0026rsquo;s designed to make it easier for developers to deploy and run applications without having to worry about the underlying infrastructure.\nKey Features\nEasy Deployment: Developers can easily deploy their applications by simply uploading their code. Automatic Scaling: Elastic Beanstalk can automatically scale your application based on demand. Managed Environment: AWS Elastic Beanstalk provisions and manages the underlying infrastructure, including compute instances, load balancers, and databases. Multiple Language Support: Elastic Beanstalk supports a variety of programming languages, including Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker. API Gateway and AWS Lambda are two AWS services that work together to build and deploy scalable and cost-effective APIs (Application Programming Interfaces) in the cloud.\nAmazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale.\nAWS Lambda is a serverless computing service that allows you to run code without provisioning or managing servers. It automatically scales based on the incoming traffic or events.\nRDS - Relational Database Service is a service that helps users create and manage Relational Databases (SQL in relational form).\nKey Features\nIt is a DaaS (Database as a Service). Allows users to create either a database instance or a cluster of instances. It can scale in two ways: Vertical Scaling: Increase or decrease the instance configuration. Horizontal Scaling: Add or remove nodes, but these nodes can only be read replicas. There is a maximum limit on the hard drive capacity (64 TB for MySQL, MariaDB, etc., and 16 TB for Microsoft SQL). Basic Features\nQuickly create basic DB instances or clusters. Automatic failover between master-slave instances in case of incidents. High Availability: Automatically configures standby instances, users only need to select. Scalability in terms of storage capacity. Automated backups. Adjust settings at the Database level using Parameter Groups. Reference workshop on RDS : https://uwe-99points.github.io/toanntk.github.io/\n"
+},
+{
+	"uri": "/3-database/3.2.overview/",
+	"title": "Overview Database",
+	"tags": [],
+	"description": "",
+	"content": " Choose the database you just created. Review the Endpoint and copy. Using Microsoft SQL Server Management Studio to connect to the database Fill the Server name with the Endpoint you just copy. Fill login as sa and password with your password I have prepare an SQL script with the data to create an Database name Final_Project_27_11 to run. Click Here To Download SQL script Run the script and try to query with SELECT * FROM MstMealTypes , Here are the result. "
+},
+{
+	"uri": "/2-prerequiste/2.3-creatertb/",
+	"title": "Create Route Table",
+	"tags": [],
+	"description": "",
+	"content": "Create Subnet Go to VPC\nClick Route tables. Check Route Table details\nChoose Route tables\nClick Subnet associations Click Edit Subnet associations Choose Public subnet, then click Save associations. The result will be notify success "
+},
+{
+	"uri": "/4-backend/4.3.installtoolkit/",
+	"title": "Install AWS Tool Kit",
+	"tags": [],
+	"description": "",
+	"content": "For more information Install AWS guide Choose Extensions -\u0026gt; Manage Extensions. Search AWS toolkit for Visual Studio 2022 and install packget. Login your AWS account to your service. "
+},
+{
+	"uri": "/2-prerequiste/",
+	"title": "Preparation ",
+	"tags": [],
+	"description": "",
+	"content": "The lab uses multiple AWS services such as VPC, EC2 and RDS.\nVPC (Virtual Private Cloud): You\u0026rsquo;ll set up a Virtual Private Cloud, which is an isolated network environment within AWS. This will help you control the networking aspects of your RDS instance.\nEC2 (Elastic Compute Cloud): EC2 instances are used for various purposes, including potentially hosting applications that interact with your RDS database. You may create EC2 instances to simulate different use cases.\nRDS (Relational Database Service): The primary focus of the lab is on RDS. You will work with RDS to create, configure, and manage relational databases. This includes creating database instances, setting up automatic backups, configuring security groups, and possibly implementing high availability solutions.\nContent Create VPC Create Subnet Create Route Table Create Internet Gateway Create Security Group "
+},
+{
+	"uri": "/2-prerequiste/2.4-createintgtw/",
+	"title": "Create Internet Gateway",
+	"tags": [],
+	"description": "",
+	"content": " Go to VPC Click Internet Gateway on the left off the screen. Then Click Create Internet Gateway. Add name tag workshop-2-int-gtw, then click Create Internet Gateway. Click Attach to a VPC Chose Availiable VPC my-workshop-2-vpc, then click Attach internet gateway Chose Route Tables on the left off the screen. Click on Routes Table of The my-workshop-2-vpc. Click Routes tab. Click Edit routes. Click on Add route Chose Destinations 0.0.0.0/0. Chose Target Internet Gateway. Chose internet gateway that you just create, then Save Changes. "
+},
+{
+	"uri": "/3-database/",
+	"title": "Database",
+	"tags": [],
+	"description": "",
+	"content": "Content Create Database Review Database "
+},
+{
+	"uri": "/4-backend/4.4.publicsourcecode/",
+	"title": "Deploy API",
+	"tags": [],
+	"description": "",
+	"content": " Check project PackageReference\nMake sure that contains Amazon.Lambd.Tools , Amazon.Lambda.AspNetCoreServer and Amazon.Lambda.AspNetCoreServer.Hosting. Right click on project and click on Publish to AWS Lambda. Set Stack name as Workshop-2.\nChoose S3 Bucket : awslambda-net6. Choose Publish. Public source code in process.\n4. Upload Code Complete. Copy AWS Serverless URL and check the result Go to CloudFormation and check Stack you just deploy Go to CloudFormation and check status "
+},
+{
+	"uri": "/4-backend/",
+	"title": "Back-end WebAPI with AWS Tool kit",
+	"tags": [],
+	"description": "",
+	"content": "Content Connect to Database from back-end Create S3 to store source code Install AWS Tool Kit Public Soure Code "
+},
+{
+	"uri": "/2-prerequiste/2.5-createsg/",
+	"title": "Create Security Group",
+	"tags": [],
+	"description": "",
+	"content": " In the Security Group interface Click Create security group Add name tag rds-mysql-sg Add Description rds-mysql-sg Chose VPC you create. Add all the inbounds rule the pictures. Type : All Trafics, Source : MyIP Type : SSH, Source : Anywhere-Ipv4 Type : HTTP, Source : Anywhere-Ipv4 Type : HTTPS, Source : Anywhere-Ipv4 Type : MYSQL/Aurora, Source : Anywhere-Ipv4 Type : MSSQL, Source : Anywhere-Ipv4 Create Security Group Success "
+},
+{
+	"uri": "/5-frontend/",
+	"title": "Deploy Front-end with Elastic Beanstalk",
+	"tags": [],
+	"description": "",
+	"content": "Content Prepare for source code Deploying using Elastic Beanstalk "
+},
+{
+	"uri": "/8-cleanup/",
+	"title": "Clean up resources",
+	"tags": [],
+	"description": "",
+	"content": "We will take the following steps to delete the resources we created in this exercise.\nClear Back-end WebApi enviroment Go to Cloud Formation Choose stack Workshop-2 and click on Delete button. Choose Confirm Delete Clear Fronnt-end Nodejs enviroment Go to Amazon Elastic Beanstalk Choose your enviroment Click on Actions dropdown and click on Terminate enviroment. Enter environment name to confirm and click on Terminate. Go to RDS\nChoose your database Click on Actions dropdown and click on Delete. Tick on I acknowledge \u0026hellip;, type delete me and click Delete\nGo to VPC and delete all related VPC that you create in workshop. "
+},
+{
+	"uri": "/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
